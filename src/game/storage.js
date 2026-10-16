@@ -93,7 +93,13 @@ export function updateStats(gameResult) {
   const stats = loadStats();
   stats.gamesPlayed++;
   
-  const today = new Date().toDateString();
+  const today = new Date();
+  const dateKey = (date) => [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-');
+  const todayKey = dateKey(today);
   
   if (gameResult.allCompleted) {
     stats.gamesCompleted++;
@@ -109,21 +115,27 @@ export function updateStats(gameResult) {
     stats.bestTime = gameResult.totalTime;
   }
   
-  // Streak logic
-  if (stats.lastPlayedDate) {
-    const lastDate = new Date(stats.lastPlayedDate);
-    const diffDays = Math.floor((new Date(today) - lastDate) / (1000 * 60 * 60 * 24));
-    if (diffDays === 1) {
-      stats.currentStreak++;
-    } else if (diffDays > 1) {
-      stats.currentStreak = 1;
-    }
-  } else {
+  const storedDate = stats.lastPlayedDate;
+  const parsedLastDate = storedDate ? new Date(storedDate) : null;
+  const lastPlayedKey = typeof storedDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(storedDate)
+    ? storedDate
+    : parsedLastDate && !Number.isNaN(parsedLastDate.getTime())
+      ? dateKey(parsedLastDate)
+      : null;
+
+  if (!lastPlayedKey) {
     stats.currentStreak = 1;
+  } else if (lastPlayedKey !== todayKey) {
+    const [year, month, day] = todayKey.split('-').map(Number);
+    const [lastYear, lastMonth, lastDay] = lastPlayedKey.split('-').map(Number);
+    const todayOrdinal = Date.UTC(year, month - 1, day);
+    const lastOrdinal = Date.UTC(lastYear, lastMonth - 1, lastDay);
+    const dayDifference = (todayOrdinal - lastOrdinal) / (24 * 60 * 60 * 1000);
+    stats.currentStreak = dayDifference === 1 ? stats.currentStreak + 1 : 1;
   }
   
   stats.maxStreak = Math.max(stats.maxStreak, stats.currentStreak);
-  stats.lastPlayedDate = today;
+  stats.lastPlayedDate = todayKey;
   
   saveStats(stats);
   return stats;

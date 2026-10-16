@@ -304,8 +304,11 @@ export function GameProvider({ children }) {
   }, []);
 
   const nextLevel = useCallback(() => {
+    if (state.currentLevel + 1 >= TOTAL_LEVELS) {
+      clearGameState();
+    }
     dispatch({ type: 'NEXT_LEVEL' });
-  }, []);
+  }, [state.currentLevel]);
 
   const showResults = useCallback(() => {
     // Update stats before showing results

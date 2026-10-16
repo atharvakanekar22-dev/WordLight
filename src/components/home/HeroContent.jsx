@@ -5,7 +5,7 @@ export default function HeroContent({ onStartGame }) {
     <section className="hero-content" aria-labelledby="hero-headline">
       <div className="hero-content__left">
         <h1 id="hero-headline" className="hero-content__headline">
-          Six words.<br />
+          Four words.<br />
           A moment to think.
         </h1>
         

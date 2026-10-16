@@ -15,6 +15,20 @@ export default function ResultsScreen() {
   const totalSeconds = totalTimeSeconds % 60;
   const totalTimeStr = `${totalMinutes}:${String(totalSeconds).padStart(2, '0')}`;
   
+  const copyToClipboard = async (text) => {
+    if (!navigator.clipboard?.writeText) {
+      setShareStatus('Sharing and clipboard access are unavailable in this browser.');
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(text);
+      setShareStatus('Copied to clipboard!');
+    } catch {
+      setShareStatus('Unable to copy your result. Check your browser permissions and try again.');
+    }
+  };
+
   const handleShare = async () => {
     const blocks = Array(TOTAL_LEVELS).fill('░');
     levels.forEach((l, i) => {
@@ -38,19 +52,12 @@ Time: ${totalTimeStr}
         setShareStatus('Shared!');
       } catch (err) {
         if (err.name !== 'AbortError') {
-          copyToClipboard(textToShare);
+          await copyToClipboard(textToShare);
         }
       }
     } else {
-      copyToClipboard(textToShare);
+      await copyToClipboard(textToShare);
     }
-  };
-
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => {
-      setShareStatus('Copied to clipboard!');
-      setTimeout(() => setShareStatus(''), 3000);
-    });
   };
 
   return (
@@ -64,10 +71,6 @@ Time: ${totalTimeStr}
         )}
         
         <div className="stats-grid">
-          <div className="stat-card">
-            <span className="stat-label">Levels Completed</span>
-            <span className="stat-value">{wordsSolved} / {TOTAL_LEVELS}</span>
-          </div>
           <div className="stat-card">
             <span className="stat-label">Words Solved</span>
             <span className="stat-value">{wordsSolved} / {TOTAL_LEVELS}</span>
@@ -93,7 +96,7 @@ Time: ${totalTimeStr}
         <div className="results-actions">
           <button className="btn btn--primary" onClick={resetGame}>PLAY AGAIN</button>
           <button className="btn btn--secondary" onClick={handleShare}>SHARE RESULT</button>
-          {shareStatus && <p className="share-status">{shareStatus}</p>}
+          {shareStatus && <p className="share-status" role="status" aria-live="polite">{shareStatus}</p>}
         </div>
       </div>
     </div>

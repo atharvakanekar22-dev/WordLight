@@ -10,7 +10,7 @@ export default function Timer({ timeRemaining, isActive }) {
   else if (timeRemaining <= 20) urgencyClass = 'timer--warning';
   
   return (
-    <div className={`timer ${urgencyClass} ${!isActive ? 'timer--paused' : ''}`} role="timer" aria-live="polite" aria-label={`${timeRemaining} seconds remaining`}>
+    <div className={`timer ${urgencyClass} ${!isActive ? 'timer--paused' : ''}`} role="timer" aria-label={`${timeRemaining} seconds remaining`}>
       <span className="timer__icon" aria-hidden="true">⏱</span>
       <span className="timer__display">{display}</span>
     </div>
