@@ -83,6 +83,7 @@
 .btn--secondary:hover:not(:disabled),
 .btn-secondary:hover:not(:disabled) {
   background-color: var(--bg-hover);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn--glow {
