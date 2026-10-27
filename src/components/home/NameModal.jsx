@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useGame } from '../../game/GameContext';
 
-export default function NameModal({ isOpen, onClose }) {
+export default function NameModal({ isOpen, onClose, onSaved }) {
   const { playerName, saveName } = useGame();
   const [inputVal, setInputVal] = useState(playerName || '');
   const [error, setError] = useState('');
@@ -43,6 +43,7 @@ export default function NameModal({ isOpen, onClose }) {
       return;
     }
     saveName(trimmed);
+    onSaved?.(trimmed);
   };
 
   const handleKeyDown = (e) => {

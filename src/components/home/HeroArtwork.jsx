@@ -2,11 +2,11 @@ import React from 'react';
 
 export default function HeroArtwork() {
   return (
-    <section className="hero-artwork" aria-label="Contemplative knowledge garden visual">
+    <section className="hero-artwork" aria-label="Abstract cognitive network visual">
       <div className="hero-artwork__container">
         <img 
-          src="/hero-garden.jpg" 
-          alt="Serene surreal garden with classical stone columns, morning sunlight, wildflowers, and subtle glowing typographic letters floating in the air"
+          src="/hero-mind.svg"
+          alt="Abstract network of connected nodes representing focus and mental agility"
           className="hero-artwork__img"
           loading="eager"
         />

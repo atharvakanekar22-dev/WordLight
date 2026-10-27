@@ -13,9 +13,11 @@ export default function LandingScreen() {
   const { startGame, playerName, isNameModalOpen, closeNameModal, openNameModal } = useGame();
   const [isExiting, setIsExiting] = useState(false);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [shouldStartAfterName, setShouldStartAfterName] = useState(false);
 
   const handleStartGame = () => {
     if (!playerName) {
+      setShouldStartAfterName(true);
       openNameModal();
       return;
     }
@@ -25,6 +27,16 @@ export default function LandingScreen() {
     setTimeout(() => {
       startGame();
     }, 280);
+  };
+
+  const handleNameSaved = (savedName) => {
+    if (shouldStartAfterName) {
+      setShouldStartAfterName(false);
+      setIsExiting(true);
+      setTimeout(() => {
+        startGame(savedName);
+      }, 280);
+    }
   };
 
   return (
@@ -62,6 +74,7 @@ export default function LandingScreen() {
       <NameModal 
         isOpen={isNameModalOpen} 
         onClose={closeNameModal} 
+        onSaved={handleNameSaved}
       />
     </div>
   );

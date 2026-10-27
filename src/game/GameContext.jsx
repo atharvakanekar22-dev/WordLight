@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useCallback, useEffect, useRef, useState } from 'react';
-import { LEVELS, TOTAL_LEVELS, MAX_GUESSES, TIMER_SECONDS, GIFT_MESSAGES } from '../data/words';
+import { LEVELS, createLevelSet, TOTAL_LEVELS, MAX_GUESSES, TIMER_SECONDS, GIFT_MESSAGES } from '../data/words';
 import { evaluateGuess, validateGuess, calculateLevelScore, calculateTotalScore } from './gameLogic';
 import { saveGameState, loadGameState, clearGameState, updateStats, loadPlayerName, savePlayerName } from './storage';
 
@@ -52,9 +52,10 @@ function gameReducer(state, action) {
       const newState = {
         ...state,
         phase: GAME_PHASES.PLAYING,
+        showResumePrompt: false,
         currentLevel: 0,
         startTime: Date.now(),
-        levels: state.levels.map((level, index) => ({
+        levels: createLevelSet().map((level, index) => ({
           ...level,
           status: index === 0 ? LEVEL_STATUS.ACTIVE : LEVEL_STATUS.LOCKED,
           timeRemaining: TIMER_SECONDS,
@@ -270,11 +271,13 @@ export function GameProvider({ children }) {
     }
   }, [state.errorMessage]);
 
-  const startGame = useCallback(() => {
-    if (!playerName) {
+  const startGame = useCallback((nameOverride = '') => {
+    if (!playerName && !nameOverride) {
       setIsNameModalOpen(true);
       return;
     }
+    // A fresh start must discard the suspended game before creating new levels.
+    clearGameState();
     dispatch({ type: 'START_GAME' });
   }, [playerName]);
 

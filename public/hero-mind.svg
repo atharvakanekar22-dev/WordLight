@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 760" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#132f35"/>
+      <stop offset="0.55" stop-color="#285b60"/>
+      <stop offset="1" stop-color="#d0a76c"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop stop-color="#f8e6bf" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f8e6bf" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="760" fill="url(#bg)"/>
+  <circle cx="1190" cy="210" r="290" fill="url(#glow)" opacity=".55"/>
+  <g fill="none" stroke="#d8efe8" stroke-opacity=".34" stroke-width="2">
+    <path d="M190 570 420 300 700 470 910 170 1190 330 1400 120"/>
+    <path d="M250 180 420 300 660 170 910 170 1070 560 1400 520"/>
+    <path d="M420 300 520 620 820 560 1070 560 1190 330"/>
+    <path d="M660 170 700 470 910 170 1190 330"/>
+  </g>
+  <g fill="#f3d9a1" stroke="#f8f2df" stroke-width="3">
+    <circle cx="190" cy="570" r="10"/><circle cx="250" cy="180" r="9"/>
+    <circle cx="420" cy="300" r="16"/><circle cx="520" cy="620" r="9"/>
+    <circle cx="660" cy="170" r="12"/><circle cx="700" cy="470" r="10"/>
+    <circle cx="820" cy="560" r="13"/><circle cx="910" cy="170" r="18"/>
+    <circle cx="1070" cy="560" r="10"/><circle cx="1190" cy="330" r="16"/>
+    <circle cx="1400" cy="120" r="11"/><circle cx="1400" cy="520" r="9"/>
+  </g>
+  <text x="800" y="390" fill="#f8f2df" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" letter-spacing="9" opacity=".8">THINK IN PATTERNS</text>
+</svg>

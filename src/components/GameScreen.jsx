@@ -9,6 +9,7 @@ import LockedLevel from './LockedLevel';
 export default function GameScreen() {
   const { levels, currentLevel } = useGame();
   const activeLevelRef = useRef(null);
+  const activeLevel = levels[currentLevel];
   
   useEffect(() => {
     if (activeLevelRef.current) {
@@ -19,7 +20,13 @@ export default function GameScreen() {
   }, [currentLevel]);
   
   return (
-    <div className="game-container">
+    <div
+      className="game-container"
+      style={{
+        '--game-background': activeLevel?.palette?.background,
+        '--game-accent': activeLevel?.palette?.accent,
+      }}
+    >
       <GameHeader currentLevel={currentLevel} />
       <ProgressJourney levels={levels} currentLevel={currentLevel} />
       <div className="levels-container">

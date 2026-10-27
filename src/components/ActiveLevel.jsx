@@ -76,6 +76,7 @@ export default function ActiveLevel({ level }) {
       </div>
       
       <div className="level-card__info">
+        <span className="level-card__category">{level.category}</span>
         <span className="level-card__attempts">
           {level.attempts} / {MAX_GUESSES} attempts
         </span>
